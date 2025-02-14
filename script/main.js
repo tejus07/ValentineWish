@@ -275,6 +275,12 @@ const animationTimeline = () => {
   });
 };
 
+  // // Show container and start music on touch
+  // const touchPrompt = document.getElementById('touchPrompt');
+  // touchPrompt.addEventListener('click', () => {
+  //   tl.play();
+  // });
+
 // Import the data to customize and insert them into page
 const fetchData = () => {
   const urlParams = new URLSearchParams(window.location.search);

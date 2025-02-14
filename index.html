@@ -44,6 +44,33 @@
     .music-control span {
       font-size: 20px;
     }
+
+    .touch-prompt {
+      text-align: center;
+      color: #ff69b4;
+      font-size: 1.2em;
+      margin-top: 20px;
+      animation: pulse 1.5s infinite;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .container {
+      visibility: hidden;
+    }
   </style>
 </head>
 
@@ -189,6 +216,8 @@
   <script>
     const music = document.getElementById('bgMusic');
     const musicControl = document.getElementById('musicControl');
+    const touchPrompt = document.getElementById('touchPrompt');
+    const container = document.querySelector('.container');
     let isPlaying = false;
 
     function toggleMusic() {
@@ -202,29 +231,18 @@
       isPlaying = !isPlaying;
     }
 
-    // Try to play music after a 1-second delay
-    setTimeout(() => {
+    // Show container and start music on touch
+    touchPrompt.addEventListener('click', () => {
+      container.style.visibility = 'visible';
+      // touchPrompt.style.display = 'none';
       music.play().then(() => {
         isPlaying = true;
         musicControl.style.background = 'rgba(255, 105, 180, 0.9)';
-      }).catch(() => {
-        // Autoplay was prevented
-        isPlaying = false;
       });
-    }, 1000);
+    });
 
-    // Add click handler
+    // Add click handler for music control
     musicControl.addEventListener('click', toggleMusic);
-
-    // Backup: Try to play on first interaction if autoplay failed
-    document.addEventListener('click', () => {
-      if (!isPlaying) {
-        music.play().then(() => {
-          isPlaying = true;
-          musicControl.style.background = 'rgba(255, 105, 180, 0.9)';
-        });
-      }
-    }, { once: true });
   </script>
 </body>
 
