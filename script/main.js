@@ -287,6 +287,17 @@ const fetchData = () => {
     return; // Stop execution if no name
   }
 
+  // Track name parameter in analytics
+  if (window.va) {
+    window.va('event', {
+      name: 'valentine_wish_viewed',
+      data: {
+        recipient: nameFromUrl
+      }
+    });
+  }
+
+
   // Capitalize first letter of the name
   nameFromUrl = nameFromUrl.charAt(0).toUpperCase() + nameFromUrl.slice(1);
 

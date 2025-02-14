@@ -23,13 +23,36 @@
       z-index: 9999;
       text-align: center;
     }
+
+    .music-control {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 105, 180, 0.6);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .music-control span {
+      font-size: 20px;
+    }
   </style>
 </head>
 
 <body>
-<audio autoplay loop controls style="position: absolute; opacity: 0">
-  <source src="TumSeHi.mp3#t=10" type="audio/ogg">
-</audio>
+  <div id="musicControl" class="music-control">
+    <span>🎵</span>
+  </div>
+  <audio id="bgMusic" loop>
+    <source src="TumSeHi.mp3#t=10" type="audio/mpeg">
+  </audio>
   <div id="overlay" class="overlay">
     <div>
       <h2>❤️ Oops! ❤️</h2>
@@ -43,6 +66,7 @@
         <span id="name">xyz</span>
       </h1>
       <p class="two" id="greetingText">I really like your name btw!</p>
+      <p class="touch-prompt" id="touchPrompt">💝 Touch to Continue 💝</p>
     </div>
     <div class="three">
       <p>It's Valentine!!! :D</p>
@@ -161,6 +185,46 @@
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
+  <script>
+    const music = document.getElementById('bgMusic');
+    const musicControl = document.getElementById('musicControl');
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        musicControl.style.background = 'rgba(255, 105, 180, 0.6)';
+      } else {
+        music.play();
+        musicControl.style.background = 'rgba(255, 105, 180, 0.9)';
+      }
+      isPlaying = !isPlaying;
+    }
+
+    // Try to play music after a 1-second delay
+    setTimeout(() => {
+      music.play().then(() => {
+        isPlaying = true;
+        musicControl.style.background = 'rgba(255, 105, 180, 0.9)';
+      }).catch(() => {
+        // Autoplay was prevented
+        isPlaying = false;
+      });
+    }, 1000);
+
+    // Add click handler
+    musicControl.addEventListener('click', toggleMusic);
+
+    // Backup: Try to play on first interaction if autoplay failed
+    document.addEventListener('click', () => {
+      if (!isPlaying) {
+        music.play().then(() => {
+          isPlaying = true;
+          musicControl.style.background = 'rgba(255, 105, 180, 0.9)';
+        });
+      }
+    }, { once: true });
+  </script>
 </body>
 
 </html>
