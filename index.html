@@ -233,7 +233,7 @@
     // Show container and start music on touch
     touchPrompt.addEventListener('click', () => {
       container.style.visibility = 'visible';
-      touchPrompt.style.display = 'none';
+      // touchPrompt.style.display = 'none';
       music.play().then(() => {
         isPlaying = true;
         musicControl.style.background = 'rgba(255, 105, 180, 0.9)';

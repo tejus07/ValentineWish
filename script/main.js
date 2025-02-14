@@ -26,7 +26,7 @@ const animationTimeline = () => {
     skewX: "-15deg",
   };
 
-  const tl = new TimelineMax({ paused: true });
+  const tl = new TimelineMax();
 
   tl.to(".container", 0.1, {
     visibility: "visible",
@@ -265,18 +265,21 @@ const animationTimeline = () => {
       "+=1"
     );
 
+  // tl.seek("currentStep");
+  // tl.timeScale(2);
+
   // Restart Animation on click
   const replyBtn = document.getElementById("replay");
   replyBtn.addEventListener("click", () => {
     tl.restart();
   });
-
-  // Show container and start music on touch
-  const touchPrompt = document.getElementById('touchPrompt');
-  touchPrompt.addEventListener('click', () => {
-    tl.play();
-  });
 };
+
+  // // Show container and start music on touch
+  // const touchPrompt = document.getElementById('touchPrompt');
+  // touchPrompt.addEventListener('click', () => {
+  //   tl.play();
+  // });
 
 // Import the data to customize and insert them into page
 const fetchData = () => {
@@ -299,6 +302,7 @@ const fetchData = () => {
       }
     });
   }
+
 
   // Capitalize first letter of the name
   nameFromUrl = nameFromUrl.charAt(0).toUpperCase() + nameFromUrl.slice(1);
