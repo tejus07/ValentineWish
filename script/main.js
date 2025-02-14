@@ -277,6 +277,19 @@ const animationTimeline = () => {
 
 // Import the data to customize and insert them into page
 const fetchData = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  let nameFromUrl = urlParams.get('name');
+
+  // Show overlay if name is not present
+  if (!nameFromUrl) {
+    document.getElementById('overlay').style.display = 'flex';
+    document.querySelector('.container').style.visibility = 'hidden';
+    return; // Stop execution if no name
+  }
+
+  // Capitalize first letter of the name
+  nameFromUrl = nameFromUrl.charAt(0).toUpperCase() + nameFromUrl.slice(1);
+
   fetch("customize.json")
     .then((data) => data.json())
     .then((data) => {
@@ -286,6 +299,9 @@ const fetchData = () => {
             document
               .getElementById(customData)
               .setAttribute("src", data[customData]);
+          } else if (customData === "name") {
+            // Always use capitalized name from URL
+            document.getElementById(customData).innerText = nameFromUrl;
           } else {
             document.getElementById(customData).innerText = data[customData];
           }
@@ -303,3 +319,4 @@ const resolveFetch = () => {
 };
 
 resolveFetch().then(animationTimeline());
+
